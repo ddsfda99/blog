@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>循环优化与数据依赖分析 - ddsfda99 的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="application-name" content="ddsfda99 的博客"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ddsfda99 的博客"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="一、数据依赖类型True dependence &amp;#x2F; RAW先写后读：读到的值必须是那次写产生的，所以必须保持写在前、读在后。 12x &amp;#x3D; 42;   &amp;#x2F;&amp;#x2F; 写y &amp;#x3D; x+1;  &amp;#x2F;&amp;#x2F; 读  Anti-dependence &amp;#x2F; WAR先读后写：后面的写不能跑到前面的读之前去，否则把本该被读到的旧值改掉了。 12y &amp;#x3D; x+1;  &amp;#x2F;&amp;#x2F; 读x &amp;#x3D; 7;    &amp;#x2F;&amp;#x2F; 写 这类依赖是名"><meta property="og:type" content="blog"><meta property="og:title" content="循环优化与数据依赖分析"><meta property="og:url" content="https://ddsfda99.github.io/blog/2025/10/03/%E5%BE%AA%E7%8E%AF%E4%BC%98%E5%8C%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90/"><meta property="og:site_name" content="ddsfda99 的博客"><meta property="og:description" content="一、数据依赖类型True dependence &amp;#x2F; RAW先写后读：读到的值必须是那次写产生的，所以必须保持写在前、读在后。 12x &amp;#x3D; 42;   &amp;#x2F;&amp;#x2F; 写y &amp;#x3D; x+1;  &amp;#x2F;&amp;#x2F; 读  Anti-dependence &amp;#x2F; WAR先读后写：后面的写不能跑到前面的读之前去，否则把本该被读到的旧值改掉了。 12y &amp;#x3D; x+1;  &amp;#x2F;&amp;#x2F; 读x &amp;#x3D; 7;    &amp;#x2F;&amp;#x2F; 写 这类依赖是名"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://ddsfda99.github.io/blog/img/og_image.png"><meta property="article:published_time" content="2025-10-02T16:00:00.000Z"><meta property="article:modified_time" content="2025-10-04T06:42:19.454Z"><meta property="article:author" content="ddsfda99"><meta property="article:tag" content="循环优化"><meta property="article:tag" content="数据依赖"><meta property="article:tag" content="并行化"><meta property="article:tag" content="LLVM"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://ddsfda99.github.io/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ddsfda99.github.io/blog/2025/10/03/%E5%BE%AA%E7%8E%AF%E4%BC%98%E5%8C%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90/"},"headline":"循环优化与数据依赖分析","image":["https://ddsfda99.github.io/blog/img/og_image.png"],"datePublished":"2025-10-02T16:00:00.000Z","dateModified":"2025-10-04T06:42:19.454Z","author":{"@type":"Person","name":"ddsfda99"},"publisher":{"@type":"Organization","name":"ddsfda99 的博客","logo":{"@type":"ImageObject","url":"https://ddsfda99.github.io/img/logo.svg"}},"description":"一、数据依赖类型True dependence &#x2F; RAW先写后读：读到的值必须是那次写产生的，所以必须保持写在前、读在后。 12x &#x3D; 42;   &#x2F;&#x2F; 写y &#x3D; x+1;  &#x2F;&#x2F; 读  Anti-dependence &#x2F; WAR先读后写：后面的写不能跑到前面的读之前去，否则把本该被读到的旧值改掉了。 12y &#x3D; x+1;  &#x2F;&#x2F; 读x &#x3D; 7;    &#x2F;&#x2F; 写 这类依赖是名"}</script><link rel="canonical" href="https://ddsfda99.github.io/blog/2025/10/03/%E5%BE%AA%E7%8E%AF%E4%BC%98%E5%8C%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E4%BE%9D%E8%B5%96%E5%88%86%E6%9E%90/"><link rel="icon" href="/blog/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">Home</a><a class="navbar-item" href="/blog/archives">Archives</a><a class="navbar-item" href="/blog/categories">Categories</a><a class="navbar-item" href="/blog/tags">Tags</a><a class="navbar-item" href="/blog/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-10-02T16:00:00.000Z" title="10/3/2025, 12:00:00 AM">2025-10-03</time>发表</span><span class="level-item"><time dateTime="2025-10-04T06:42:19.454Z" title="10/4/2025, 2:42:19 PM">2025-10-04</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E7%BC%96%E8%AF%91%E4%BC%98%E5%8C%96/">编译优化</a></span><span class="level-item">12 分钟读完 (大约1788个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">循环优化与数据依赖分析</h1><div class="content"><h2 id="一、数据依赖类型"><a href="#一、数据依赖类型" class="headerlink" title="一、数据依赖类型"></a>一、数据依赖类型</h2><p><strong>True dependence &#x2F; RAW</strong><br>先写后读：读到的值必须是那次写产生的，所以必须保持写在前、读在后。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">42</span>;   <span class="comment">// 写</span></span><br><span class="line">y = x+<span class="number">1</span>;  <span class="comment">// 读</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Anti-dependence &#x2F; WAR</strong><br>先读后写：后面的写不能跑到前面的读之前去，否则把本该被读到的旧值改掉了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = x+<span class="number">1</span>;  <span class="comment">// 读</span></span><br><span class="line">x = <span class="number">7</span>;    <span class="comment">// 写</span></span><br></pre></td></tr></table></figure>
+<p>这类依赖是名字引起的：如果把第二个 x 改名为别的临时变量，约束就没了。</p>
+<p><strong>Output dependence &#x2F; WAW</strong><br>写依赖写：两次写同一个位置，先后顺序要保持，否则最终值改变。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">1</span>;    <span class="comment">// 写</span></span><br><span class="line">x = <span class="number">2</span>;    <span class="comment">// 写</span></span><br></pre></td></tr></table></figure>
+<p>它同样是名字引起的，改名能消除。</p>
+<p><strong>Input dependence &#x2F; RAR</strong><br>读依赖读：两次读同一位置，无顺序约束，随便换序都对结果没影响。</p>
+<p><strong>动态数据依赖（Dynamic Data Dependence）</strong><br>实际执行时两个具体操作是否冲突。</p>
+<p><strong>静态数据依赖（Static Data Dependence）</strong><br>编译器在代码层面推断可能存在冲突（只要有一种迭代组合能导致冲突，就认为有依赖）。</p>
+<h2 id="二、循环并行性分析"><a href="#二、循环并行性分析" class="headerlink" title="二、循环并行性分析"></a>二、循环并行性分析</h2><p>存在跨迭代的数据依赖（loop-carried dependence），循环不是 DOALL（DO ALL iterations in parallel）。<br>不存在跨迭代的数据依赖，循环是 DOALL，可完全并行。</p>
+<p><strong>Distance Vector（距离向量）</strong><br>定义为目标迭代 (It) 与源迭代 (Is) 的差值，表示数据依赖跨了多少次迭代。<br>比如，如果 i&#x3D;5 的迭代依赖 i&#x3D;4 的结果，那么 d &#x3D; 1。</p>
+<p><strong>Direction Vector（方向向量）</strong><br>定义为描述依赖关系在迭代空间的相对方向。<br>对于从 Is → It 的依赖，方向向量是一组符号（每个循环层次一个符号）：<br>&lt; 表示目标迭代在源迭代之后（It &gt; Is）<br>&#x3D; 表示同一次迭代（It &#x3D; Is）<br>&gt; 表示目标迭代在源迭代之前（It &lt; Is）<br>* 表示不确定</p>
+<h2 id="三、嵌套循环"><a href="#三、嵌套循环" class="headerlink" title="三、嵌套循环"></a>三、嵌套循环</h2><p>迭代空间 (Iteration Space)：嵌套循环用多维坐标表示。<br>执行顺序：词典序 (lexicographic order)。</p>
+<p>依赖携带层次：<br>外层循环携带：i1r ≠ i1w<br>内层循环携带：i1r &#x3D; i1w, i2r ≠ i2w</p>
+<h2 id="四、数据依赖分析"><a href="#四、数据依赖分析" class="headerlink" title="四、数据依赖分析"></a>四、数据依赖分析</h2><p>内存歧义（Memory disambiguation）在编译时是不可判定的。也就是说，编译器在编译阶段无法完全确定两个内存访问是否指向同一个地址。<br>比如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">read(n)</span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; <span class="number">6</span>)</span><br><span class="line">    a[i] = a[n] + <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>这里，<code>n</code> 的值来自运行时输入。<br>编译器在编译时并不知道 <code>n</code> 的具体值，因此无法判断 <code>a[i]</code> 和 <code>a[n]</code> 是否访问同一位置。</p>
+<p><strong>数据依赖分析的适用范围</strong><br>只分析那些循环边界和数组下标是变量的整数线性函数的情况，即循环控制变量和数组访问形式必须是线性的，形如 <code>a*i + b*j + c</code>，其中 a,b,c 为常数。</p>
+<p><strong>数据依赖存在的条件</strong></p>
+<ul>
+<li>循环变量范围合法：读操作与写操作的迭代索引都必须处于循环允许的范围内。</li>
+<li>读写访问同一存储位置：当某次写操作和某次读操作访问的是同一个数组元素时，就存在数据依赖。</li>
+<li>忽略非仿射（non-affine）关系：不考虑像 ( i1 * i1 ) 这样的非线性项，因为它超出了线性数据依赖分析的处理范围。</li>
+</ul>
+<h3 id="近似测试-Inexact-Tests"><a href="#近似测试-Inexact-Tests" class="headerlink" title="近似测试 (Inexact Tests)"></a>近似测试 (Inexact Tests)</h3><p>示例方法：</p>
+<ul>
+<li>GCD Test：通过最大公约数判断线性丢番图方程是否有解。</li>
+<li>Banerjee Test：通过上下界约束求近似结论。可能过于保守。</li>
+</ul>
+<p>可能的两种结果：</p>
+<ul>
+<li>No → 无依赖<br>表示可以确定不存在数据依赖。</li>
+<li>Don’t know → 假设存在解 → 有依赖（保守处理）<br>如果测试无法确定是否存在依赖，则编译器会保守地认为存在依赖，以避免出错。</li>
+</ul>
+<p><strong>GCD 测试</strong><br>在循环并行化中，GCD（Greatest Common Divisor）测试是一种常用的快速数据依赖检测方法。<br>它通过判断数组下标等式是否有整数解来推测不同迭代间是否存在数据依赖。</p>
+<p>示例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i = <span class="number">1</span>; i &lt;= <span class="number">40</span>; i++) &#123;</span><br><span class="line">    a[<span class="number">3</span>*i + <span class="number">1</span>] = ...;</span><br><span class="line">    ... = a[<span class="number">2</span>*i + <span class="number">5</span>] + <span class="number">7</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>写访问下标：<br>$$<br>\text{Write: } 3i_w + 1<br>$$<br>读访问下标：<br>$$<br>\text{Read: } 2i_r + 5<br>$$<br>要访问同一位置，就需要满足：<br>$$<br>3i_w + 1 &#x3D; 2i_r + 5<br>$$<br>整理为标准形式：<br>$$<br>3i_w - 2i_r &#x3D; 4<br>$$</p>
+<p>引入 GCD 理论：<br>设方程：<br>$$<br>a_1x_1 + a_2x_2 &#x3D; c<br>$$<br>若想让它在整数范围内有解，充要条件是：<br>$$<br>\mathrm{gcd}(a_1, a_2) \mid c<br>$$<br>当且仅当最大公约数能整除常数项时，方程存在整数解。</p>
+<p>应用于例子：<br>$$<br>3i_w - 2i_r &#x3D; 4<br>$$<br>$$<br>\mathrm{gcd}(3, -2) &#x3D; 1<br>$$<br>因为 $1$ 可以整除 $4$，所以方程存在整数解。<br>即存在某些 $(i_w, i_r)$ 能同时访问同一个数组元素。<br>这说明可能存在数据依赖，但还要检查：这些解是否落在循环范围内（$1 \le i \le 40$）。如果超出范围，则依赖无效。</p>
+<p><strong>欧几里得算法（Euclidean Algorithm）</strong><br>GCD 通常通过欧几里得算法计算。<br>算法步骤：</p>
+<ol>
+<li>设 $(a &gt; b)$，两者为正整数</li>
+<li>计算余数：<br>$$<br>c &#x3D; a \bmod b<br>$$</li>
+<li>若 $c &#x3D; 0$，则：<br>$$<br>\mathrm{gcd}(a, b) &#x3D; b<br>$$</li>
+<li>否则递归：<br>$$<br>\mathrm{gcd}(a, b) &#x3D; \mathrm{gcd}(b, c)<br>$$</li>
+</ol>
+<p><strong>Banerjee 测试简介</strong><br>Banerjee’s Test 是一种循环依赖分析方法，在 GCD 测试的基础上进一步考虑了循环变量的上下界。  </p>
+<p>Banerjee 测试通过给方程两边加上上下界限制：<br>$$<br>L \le A_1i_w + A_2i_r - C \le U<br>$$<br>其中  </p>
+<ul>
+<li>$L$ 与 $U$ 由循环上下界计算得到，  </li>
+<li>如果常数项不在 $[L, U]$ 区间内，则说明没有合法解，也就不存在依赖。</li>
+</ul>
+<h3 id="精确方法-Exact-Analysis"><a href="#精确方法-Exact-Analysis" class="headerlink" title="精确方法 (Exact Analysis)"></a>精确方法 (Exact Analysis)</h3><ul>
+<li>Fourier-Motzkin Elimination：线性不等式消元。</li>
+<li>Omega Test：判断整数解是否存在，适合编译器依赖分析。</li>
+</ul>
+<h2 id="五、Affine-Transform-Theory"><a href="#五、Affine-Transform-Theory" class="headerlink" title="五、Affine Transform Theory"></a>五、Affine Transform Theory</h2><p>目标：统一程序变换（如循环交换、循环分块、局部性优化）。<br>迭代空间：d 维循环 → d 维空间。<br>数组访问：映射为仿射函数。<br>处理器空间：将迭代分配到虚拟或物理处理器。<br>仿射变换：循环交换、嵌套重排，提升数据局部性与并行度。</p>
+<h2 id="六、循环优化实例"><a href="#六、循环优化实例" class="headerlink" title="六、循环优化实例"></a>六、循环优化实例</h2><ul>
+<li>Locality Optimization：局部性优化<br>空间局部性：内层循环按内存连续方向走<br>时间局部性：尽量在数据仍驻留缓存时重复使用</li>
+<li>Loop Interchange：循环交换<br>把循环层次对调：for i { for j { … } } ↔ for j { for i { … } }。</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>循环优化与数据依赖分析</p><p><a href="https://ddsfda99.github.io/blog/2025/10/03/循环优化与数据依赖分析/">https://ddsfda99.github.io/blog/2025/10/03/循环优化与数据依赖分析/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>ddsfda99</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2025-10-03</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2025-10-04</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E5%BE%AA%E7%8E%AF%E4%BC%98%E5%8C%96/">循环优化</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E6%95%B0%E6%8D%AE%E4%BE%9D%E8%B5%96/">数据依赖</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/%E5%B9%B6%E8%A1%8C%E5%8C%96/">并行化</a><a class="link-muted mr-2" rel="tag" href="/blog/tags/LLVM/">LLVM</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/blog/2025/10/02/leveldb-wal-recovery-and-memory-management/"><span class="level-item">LevelDB WAL 日志恢复与内存管理解析</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><!--!--><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a><p class="is-size-7"><span>&copy; 2025 ddsfda99</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/blog/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/blog/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
