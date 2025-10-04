@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="robots" content="noindex"><meta><title>标签: 编译优化 - ddsfda99 的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="application-name" content="ddsfda99 的博客"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ddsfda99 的博客"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="ddsfda99 的博客"><meta property="og:url" content="https://ddsfda99.github.io/blog"><meta property="og:site_name" content="ddsfda99 的博客"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://ddsfda99.github.io/blog/img/og_image.png"><meta property="article:author" content="ddsfda99"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://ddsfda99.github.io/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ddsfda99.github.io/blog"},"headline":"ddsfda99 的博客","image":["https://ddsfda99.github.io/blog/img/og_image.png"],"author":{"@type":"Person","name":"ddsfda99"},"publisher":{"@type":"Organization","name":"ddsfda99 的博客","logo":{"@type":"ImageObject","url":"https://ddsfda99.github.io/img/logo.svg"}},"description":""}</script><link rel="icon" href="/blog/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">Home</a><a class="navbar-item" href="/blog/archives">Archives</a><a class="navbar-item" href="/blog/categories">Categories</a><a class="navbar-item" href="/blog/tags">Tags</a><a class="navbar-item" href="/blog/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/blog/tags/">标签</a></li><li class="is-active"><a href="#" aria-current="page">编译优化</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-10-03T16:00:00.000Z" title="10/4/2025, 12:00:00 AM">2025-10-04</time>发表</span><span class="level-item"><time dateTime="2025-10-04T14:14:21.558Z" title="10/4/2025, 10:14:21 PM">2025-10-04</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/">系统优化</a></span><span class="level-item">10 分钟读完 (大约1425个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/blog/2025/10/04/matmul/">矩阵乘法性能优化</a></p><div class="content"><blockquote>
+<p>说明：本文基于课堂笔记与个人理解整理，所有内容仅用于学习交流。</p>
+</blockquote>
+<h2 id="一、数学定义与基础实现"><a href="#一、数学定义与基础实现" class="headerlink" title="一、数学定义与基础实现"></a>一、数学定义与基础实现</h2><p><strong>数学定义</strong><br>$$<br>C &#x3D; A \times B,\quad c_{ij} &#x3D; \sum_{k&#x3D;1}^{n} a_{ik} b_{kj}<br>$$<br><strong>三重循环版本</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            C[i][j] += A[i][k] * B[k][j]</span><br></pre></td></tr></table></figure>
+<p>在 4096×4096 的矩阵上，这段代码需要5 小时以上才能运行完成。</p>
+<h2 id="二、不同语言实现的性能差异"><a href="#二、不同语言实现的性能差异" class="headerlink" title="二、不同语言实现的性能差异"></a>二、不同语言实现的性能差异</h2><p>同样的矩阵乘法，用不同语言实现，性能差距巨大。</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>执行方式</th>
+<th>性能特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Python</td>
+<td>解释执行</td>
+<td>每一步都经过解释器和对象系统，开销大</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>即时编译（JIT）</td>
+<td>热点代码会在运行时自动优化</td>
+</tr>
+<tr>
+<td>C</td>
+<td>直接编译为机器码</td>
+<td>执行最接近硬件，效率最高</td>
+</tr>
+</tbody></table>
+<p><strong>为什么会有性能差异？</strong></p>
+<ul>
+<li>Python 慢在解释器和对象模型<br>每次加法、数组访问都要经过类型检查、函数调用和对象创建。<br>循环次数一多，解释器开销远超计算本身。</li>
+<li>C 语言快在直接操作内存<br>编译后是纯机器指令，操作寄存器和内存地址，不需要类型判断或函数调度。</li>
+<li>Java 介于两者之间<br>程序先以字节码运行，虚拟机会监控热点代码，并在运行中把它即时编译（JIT）成高效机器码，自动做循环展开、函数内联等优化。<br>因此在不开优化的 C（<code>-O0</code>）对比下，Java 反而可能更快。</li>
+</ul>
+<h2 id="三、循环优化"><a href="#三、循环优化" class="headerlink" title="三、循环优化"></a>三、循环优化</h2><h3 id="1-循环交换（Loop-Interchange）"><a href="#1-循环交换（Loop-Interchange）" class="headerlink" title="1. 循环交换（Loop Interchange）"></a>1. 循环交换（Loop Interchange）</h3><p>循环的执行顺序会影响内存访问的局部性。由于数组在内存中以行主序（Row-major order）存储，若访问顺序与存储顺序一致，可以显著提高缓存命中率。循环交换是把多层嵌套循环的顺序调换，以改变内存访问顺序，从而提高缓存命中率。</p>
+<h3 id="2-编译器优化级别"><a href="#2-编译器优化级别" class="headerlink" title="2. 编译器优化级别"></a>2. 编译器优化级别</h3><p>GCC 提供多种优化选项：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-O0</code></td>
+<td>无优化（调试模式）</td>
+</tr>
+<tr>
+<td><code>-O1</code></td>
+<td>基础优化</td>
+</tr>
+<tr>
+<td><code>-O2</code></td>
+<td>启用主流优化（推荐默认）</td>
+</tr>
+<tr>
+<td><code>-O3</code></td>
+<td>激进优化，包含循环展开与向量化</td>
+</tr>
+</tbody></table>
+<p>在开启 <code>-O3</code> 后，C 实现的性能可提升数十倍。</p>
+<h3 id="3-并行化优化"><a href="#3-并行化优化" class="headerlink" title="3. 并行化优化"></a>3. 并行化优化</h3><p><strong>OpenMP 并行化</strong><br>OpenMP 是 C&#x2F;C++ 的并行编程接口，它通过编译器指令（#pragma）能让循环并行执行。<br>多核 CPU 可以通过 OpenMP 指令快速实现循环并行：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> omp parallel for schedule(static) shared(A,B,C)</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; n; j++)</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; n; k++)</span><br><span class="line">      C[i][j] += A[i][k] * B[k][j];</span><br></pre></td></tr></table></figure>
+<p><code>#pragma omp parallel for</code><br>告诉编译器把接下来的这个 for 循环的迭代分给多个线程去同时执行。<br>每个线程都会处理不同的 i 值（外层循环的不同部分）。<br><code>schedule(static)</code><br>控制任务（循环迭代）如何分配给线程：</p>
+<ul>
+<li>static：编译时平均划分，比如 8 核 CPU，每核分到 n&#x2F;8 行</li>
+<li>dynamic：运行时动态分配，适合各迭代计算量不均的情况</li>
+<li>guided：动态分配，但逐渐减小块大小，常用于负载不均<br>对矩阵乘法这种负载均匀的任务，static 性能最好。<br><code>shared(A, B, C)</code><br>声明所有线程共享同一份矩阵数据。<br>但每个线程只负责写自己那一块 C[i][j]，不会产生冲突。</li>
+</ul>
+<p><strong>一般经验</strong><br>优先对最外层循环并行化，每个线程计算一整行 C[i][*]，数据独立、缓存命中率高、无写冲突。</p>
+<h3 id="4-循环分块"><a href="#4-循环分块" class="headerlink" title="4. 循环分块"></a>4. 循环分块</h3><p>将大矩阵拆成多个小块，让每个小块能完全放入 CPU 缓存，从而减少主存访问、提升缓存命中率。</p>
+<p>未分块：</p>
+<ul>
+<li>一次写整行 <code>C</code>，频繁加载&#x2F;替换缓存；</li>
+<li>大量重复访存，约需 128 MiB 内存带宽。</li>
+</ul>
+<p>分块后（block &#x3D; 64）：</p>
+<ul>
+<li>每次仅处理 <code>64×64</code> 的小块；</li>
+<li>同一块数据在缓存中被多次复用，访存量降至约 4 MiB。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (ii = <span class="number">0</span>; ii &lt; n; ii += block)</span><br><span class="line">  <span class="keyword">for</span> (jj = <span class="number">0</span>; jj &lt; n; jj += block)</span><br><span class="line">    <span class="keyword">for</span> (kk = <span class="number">0</span>; kk &lt; n; kk += block)</span><br><span class="line">      <span class="keyword">for</span> (i = ii; i &lt; ii + block; i++)</span><br><span class="line">        <span class="keyword">for</span> (j = jj; j &lt; jj + block; j++)</span><br><span class="line">          <span class="keyword">for</span> (k = kk; k &lt; kk + block; k++)</span><br><span class="line">            C[i][j] += A[i][k] * B[k][j];</span><br></pre></td></tr></table></figure>
+<p><strong>分块大小的选择</strong></p>
+<p>块太大：超出缓存，频繁失效；<br>块太小：循环开销过大。</p>
+<h2 id="四、向量化优化"><a href="#四、向量化优化" class="headerlink" title="四、向量化优化"></a>四、向量化优化</h2><p>现代 CPU 支持单指令多数据（SIMD），一次操作可同时处理 4~16 个浮点数。<br>C 提供 Intel AVX 内建函数（intrinsics）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;immintrin.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">__m256 a = _mm256_loadu_ps(A[i] + k);</span><br><span class="line">__m256 b = _mm256_loadu_ps(B[k] + j);</span><br><span class="line">__m256 c = _mm256_loadu_ps(C[i] + j);</span><br><span class="line">c = _mm256_fmadd_ps(a, b, c);</span><br><span class="line">_mm256_storeu_ps(C[i] + j, c);</span><br></pre></td></tr></table></figure>
+<p><strong>加速比定义</strong><br>在性能优化实验中，加速比（Speedup）用于衡量不同版本代码的性能提升程度。</p>
+<ul>
+<li>相对加速比：表示当前优化版本相较于前一个版本的提升倍数。</li>
+<li>绝对加速比：表示当前版本相对于性能最差（基准）版本的提升倍数。<br>$$<br>\text{相对加速比} &#x3D;<br>\frac{\text{前一版本的运行时间}}{\text{当前版本的运行时间}}<br>$$<br>$$<br>\text{绝对加速比} &#x3D;<br>\frac{\text{性能最差版本的运行时间}}{\text{其它版本的运行时间}}<br>$$</li>
+</ul>
+</div></article></div></div><!--!--><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a><p class="is-size-7"><span>&copy; 2025 ddsfda99</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/blog/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/blog/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
