@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="robots" content="noindex"><meta><title>标签: Benchmark - ddsfda99 的博客</title><link rel="manifest" href="/blog/manifest.json"><meta name="application-name" content="ddsfda99 的博客"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="ddsfda99 的博客"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta property="og:type" content="blog"><meta property="og:title" content="ddsfda99 的博客"><meta property="og:url" content="https://ddsfda99.github.io/blog"><meta property="og:site_name" content="ddsfda99 的博客"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://ddsfda99.github.io/blog/img/og_image.png"><meta property="article:author" content="ddsfda99"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://ddsfda99.github.io/blog/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://ddsfda99.github.io/blog"},"headline":"ddsfda99 的博客","image":["https://ddsfda99.github.io/blog/img/og_image.png"],"author":{"@type":"Person","name":"ddsfda99"},"publisher":{"@type":"Organization","name":"ddsfda99 的博客","logo":{"@type":"ImageObject","url":"https://ddsfda99.github.io/img/logo.svg"}},"description":""}</script><link rel="icon" href="/blog/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/blog/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/blog/">Home</a><a class="navbar-item" href="/blog/archives">Archives</a><a class="navbar-item" href="/blog/categories">Categories</a><a class="navbar-item" href="/blog/tags">Tags</a><a class="navbar-item" href="/blog/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><div class="card-content"><nav class="breadcrumb" aria-label="breadcrumbs"><ul><li><a href="/blog/tags/">标签</a></li><li class="is-active"><a href="#" aria-current="page">Benchmark</a></li></ul></nav></div></div><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2025-10-03T16:00:00.000Z" title="10/4/2025, 12:00:00 AM">2025-10-04</time>发表</span><span class="level-item"><time dateTime="2025-10-04T07:27:42.737Z" title="10/4/2025, 3:27:42 PM">2025-10-04</time>更新</span><span class="level-item"><a class="link-muted" href="/blog/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/">软件系统优化</a><span> / </span><a class="link-muted" href="/blog/categories/%E8%BD%AF%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BC%98%E5%8C%96/%E6%80%A7%E8%83%BD%E8%AF%84%E6%B5%8B/">性能评测</a></span><span class="level-item">7 分钟读完 (大约1073个字)</span></div></div><p class="title is-3 is-size-4-mobile"><a class="link-muted" href="/blog/2025/10/04/benchmarking/">从性能测量到基准评测：构建可靠的系统性能分析框架</a></p><div class="content"><blockquote>
+<p>说明：本文基于课堂笔记与个人理解整理，所有内容仅用于学习交流。</p>
+</blockquote>
+<h2 id="一、概念与意义"><a href="#一、概念与意义" class="headerlink" title="一、概念与意义"></a>一、概念与意义</h2><h3 id="1-基准评测定义"><a href="#1-基准评测定义" class="headerlink" title="1. 基准评测定义"></a>1. 基准评测定义</h3><p>计算机基准评测：执行一组已知操作，用于衡量系统性能。</p>
+<h3 id="2-基准评测意义"><a href="#2-基准评测意义" class="headerlink" title="2. 基准评测意义"></a>2. 基准评测意义</h3><ul>
+<li>标准化性能评价：统一衡量性能与能耗。</li>
+<li>竞品分析：比较不同厂商或架构的性能。<ul>
+<li>厂商用途：指导产品设计优化（性能、功耗、成本等）。</li>
+<li>用户用途：辅助产品选择（性能&#x2F;价格比）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="二、基准评测程序类型"><a href="#二、基准评测程序类型" class="headerlink" title="二、基准评测程序类型"></a>二、基准评测程序类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>特点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单一指令</td>
+<td>测单个操作耗时</td>
+<td>早期架构中指令周期统一</td>
+</tr>
+<tr>
+<td>指令组合（Instruction Mix）</td>
+<td>不同指令按真实比例组合</td>
+<td>来源于真实系统，如 IBM 704&#x2F;650</td>
+</tr>
+<tr>
+<td>合成程序（Synthetic Program）</td>
+<td>人工生成匹配特定指令比例</td>
+<td>不能准确反映真实应用行为</td>
+</tr>
+<tr>
+<td>程序内核（Program Kernel）</td>
+<td>程序核心部分</td>
+<td>如矩阵乘法、排序、查找等</td>
+</tr>
+<tr>
+<td>微基准（Microbenchmark）</td>
+<td>测试特定硬件组件</td>
+<td>如内存、I&#x2F;O、浮点单元等</td>
+</tr>
+<tr>
+<td>应用基准（Application Benchmark）</td>
+<td>使用完整真实程序</td>
+<td>如 SPEC CPU、TPC、LINPACK 等</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、标准化基准评测套件"><a href="#三、标准化基准评测套件" class="headerlink" title="三、标准化基准评测套件"></a>三、标准化基准评测套件</h2><h3 id="1-SPEC（Standard-Performance-Evaluation-Corporation）"><a href="#1-SPEC（Standard-Performance-Evaluation-Corporation）" class="headerlink" title="1. SPEC（Standard Performance Evaluation Corporation）"></a>1. SPEC（Standard Performance Evaluation Corporation）</h3><ul>
+<li><strong>性质</strong>：非营利标准组织  </li>
+<li><strong>任务</strong>：建立并维护标准化性能基准  </li>
+<li><strong>官网</strong>：<a target="_blank" rel="noopener" href="https://www.spec.org/">https://www.spec.org</a></li>
+</ul>
+<h3 id="2-SPEC-CPU-2017"><a href="#2-SPEC-CPU-2017" class="headerlink" title="2. SPEC CPU 2017"></a>2. SPEC CPU 2017</h3><ul>
+<li><strong>目标</strong>：评估 CPU 的计算性能  </li>
+<li><strong>特性</strong>：<ul>
+<li>43 个应用程序（C&#x2F;C++&#x2F;Fortran）</li>
+<li>覆盖多种应用领域</li>
+</ul>
+</li>
+<li><strong>运行模式</strong>：<ul>
+<li><strong>Speed 模式</strong>：单副本，多线程（OpenMP）</li>
+<li><strong>Rate 模式</strong>：多副本，单线程（禁用 OpenMP）</li>
+</ul>
+</li>
+<li><strong>评价指标</strong>：<ul>
+<li>基于时间（执行速率）</li>
+<li>基于吞吐量（单位时间完成任务数）</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-优化与竞品分析"><a href="#3-优化与竞品分析" class="headerlink" title="3. 优化与竞品分析"></a>3. 优化与竞品分析</h3><ul>
+<li><strong>BKC（Best-Known Configuration）</strong>：最优配置参考  </li>
+<li><strong>竞品分析关键</strong>：对比 SPEC 官方结果数据库  </li>
+<li><strong>自动化优化工具</strong>：<a target="_blank" rel="noopener" href="https://concertio.com/">Concertio</a></li>
+</ul>
+<hr>
+<h2 id="四、基准评测套件的设计原则"><a href="#四、基准评测套件的设计原则" class="headerlink" title="四、基准评测套件的设计原则"></a>四、基准评测套件的设计原则</h2><blockquote>
+<p>“The best choice of benchmarks to measure performance is real applications.”<br>—— <em>Hennessy &amp; Patterson, Computer Architecture (6th Ed.)</em></p>
+</blockquote>
+<ul>
+<li><strong>理想选择</strong>：真实应用  </li>
+<li><strong>现实限制</strong>：部署复杂、输入规模多变、运行时间不可控  </li>
+<li><strong>基准套件优势</strong>：<ul>
+<li>建立性能基线</li>
+<li>便于系统间比较</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="五、基准评测策略"><a href="#五、基准评测策略" class="headerlink" title="五、基准评测策略"></a>五、基准评测策略</h2><table>
+<thead>
+<tr>
+<th>策略类型</th>
+<th>定义</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>固定计算量</strong></td>
+<td>固定工作量 W，测时间 T，速率 R &#x3D; W&#x2F;T</td>
+<td>SPECspeed</td>
+</tr>
+<tr>
+<td><strong>固定时间</strong></td>
+<td>固定时间 T，测完成工作量</td>
+<td>SLALOM：一分钟内计算精度</td>
+</tr>
+<tr>
+<td><strong>可变计算与时间</strong></td>
+<td>定义性能函数 f(W, T)</td>
+<td>HINT：质量提升速率（QUIPS）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、两条重要定律"><a href="#六、两条重要定律" class="headerlink" title="六、两条重要定律"></a>六、两条重要定律</h2><h3 id="1-阿姆达尔定律（Amdahl’s-Law）"><a href="#1-阿姆达尔定律（Amdahl’s-Law）" class="headerlink" title="1. 阿姆达尔定律（Amdahl’s Law）"></a>1. 阿姆达尔定律（Amdahl’s Law）</h3><blockquote>
+<p>程序性能提升上限取决于<strong>未优化部分的比例</strong></p>
+</blockquote>
+<ul>
+<li>适用于<strong>固定计算量模型</strong></li>
+<li>结论：串行部分限制了整体加速比</li>
+</ul>
+<p>公式：<br>[<br>S &#x3D; \frac{1}{(1 - P) + \frac{P}{N}}<br>]<br>其中 P 为可并行部分比例，N 为处理器数。</p>
+<hr>
+<h3 id="2-古斯塔夫森定律（Gustafson’s-Law）"><a href="#2-古斯塔夫森定律（Gustafson’s-Law）" class="headerlink" title="2. 古斯塔夫森定律（Gustafson’s Law）"></a>2. 古斯塔夫森定律（Gustafson’s Law）</h3><blockquote>
+<p>当计算能力提升时，应扩大问题规模来充分利用资源。</p>
+</blockquote>
+<ul>
+<li>针对阿姆达尔定律的悲观假设  </li>
+<li>在固定时间模型下重新定义加速比：</li>
+</ul>
+<p>[<br>S &#x3D; \alpha + (1 - \alpha) \times p<br>]</p>
+<p>当问题足够大时，α ≈ 0，速度提升约等于处理器数 p。</p>
+<hr>
+<h2 id="七、小结"><a href="#七、小结" class="headerlink" title="七、小结"></a>七、小结</h2><ul>
+<li><strong>基准评测作用</strong>：提供可复现、可比较的性能标准  </li>
+<li><strong>设计原则</strong>：代表真实应用，保证公平与复现性  </li>
+<li><strong>三种策略</strong>：<ul>
+<li>固定计算</li>
+<li>固定时间</li>
+<li>可变计算与时间</li>
+</ul>
+</li>
+<li><strong>两大定律</strong>：<ul>
+<li>阿姆达尔定律 —— 优化收益上限  </li>
+<li>古斯塔夫森定律 —— 可扩展性分析</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="📚-参考资料"><a href="#📚-参考资料" class="headerlink" title="📚 参考资料"></a>📚 参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.spec.org/">SPEC Official Website</a>  </li>
+<li><a target="_blank" rel="noopener" href="http://www.johngustafson.net/benchmarks/slalom/slalom.htm">John Gustafson’s SLALOM Benchmark</a>  </li>
+<li><a target="_blank" rel="noopener" href="http://www.johngustafson.net/pubs/pub47/Hint.htm">HINT Benchmark Overview</a>  </li>
+<li><a target="_blank" rel="noopener" href="https://concertio.com/">Concertio Tuning Platform</a>  </li>
+<li>J. Guo. <em>From SPEC Benchmarking to Online Performance Evaluation in Data Centers</em>, LTB@ICPE 2022  </li>
+<li>J. L. Hennessy, D. A. Patterson. <em>Computer Architecture – A Quantitative Approach</em>, 6th Ed., Morgan Kaufmann, 2017</li>
+</ul>
+<hr>
+</div></article></div></div><!--!--><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/blog/"><img src="/blog/img/logo.svg" alt="ddsfda99 的博客" height="28"></a><p class="is-size-7"><span>&copy; 2025 ddsfda99</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a><br><span id="busuanzi_container_site_uv">共<span id="busuanzi_value_site_uv">0</span>个访客</span></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("zh-cn");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/blog/js/column.js"></script><script src="/blog/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/blog/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script type="text/javascript" id="MathJax-script" async>MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      },
+      chtml: {
+        matchFontHeight: false
+      }
+    };</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/blog/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/blog/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/blog/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/blog/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
